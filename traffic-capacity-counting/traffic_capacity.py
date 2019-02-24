@@ -22,7 +22,7 @@ AREA_PTS = np.array([[780, 716], [686, 373], [883, 383], [1280, 636], [1280, 720
 from pipeline import (
     PipelineRunner,
     CapacityCounter,
-    ContextCsvWriter
+    # ContextCsvWriter
 )
 # ============================================================================
 
@@ -34,9 +34,9 @@ def main():
     area_mask = cv2.fillPoly(base, [AREA_PTS], (255, 255, 255))[:, :, 0]
 
     pipeline = PipelineRunner(pipeline=[
-        CapacityCounter(area_mask=area_mask, save_image=True, image_dir=IMAGE_DIR),
+        CapacityCounter(area_mask=area_mask, save_image=False, image_dir=IMAGE_DIR),
         # saving every 10 seconds
-        ContextCsvWriter('./report.csv', start_time=1505494325, fps=1, faster=10, field_names=['capacity'])
+        #ContextCsvWriter('./report.csv', start_time=1505494325, fps=1, faster=10, field_names=['capacity'])
     ], log_level=logging.DEBUG)
 
     # Set up image source
@@ -66,10 +66,10 @@ def main():
 # ============================================================================
 
 if __name__ == "__main__":
-    log = utils.init_logging()
+    # log = utils.init_logging()
 
-    if not os.path.exists(IMAGE_DIR):
-        log.debug("Creating image directory `%s`...", IMAGE_DIR)
-        os.makedirs(IMAGE_DIR)
+    # if not os.path.exists(IMAGE_DIR):
+    #     log.debug("Creating image directory `%s`...", IMAGE_DIR)
+    #     os.makedirs(IMAGE_DIR)
 
     main()

@@ -1,4 +1,7 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
+#Python 3 bytecode
+/__pycache__
+
 # input video
 /input.mp4

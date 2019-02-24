@@ -7,6 +7,8 @@ import cv2
 import matplotlib.pyplot as plt
 import utils
 
+import datetime
+import subprocess
 
 AREA_COLOR = (66, 183, 42)
 
@@ -54,7 +56,7 @@ class PipelineRunner(object):
         for p in self.pipeline:
             self.context = p(self.context)
 
-        self.log.debug("Frame #%d processed.", self.context['frame_number'])
+        # self.log.debug("Frame #%d processed.", self.context['frame_number'])
 
         return self.context
 
@@ -96,20 +98,20 @@ class CapacityCounter(PipelineProcessor):
         free = np.count_nonzero(t)
         capacity = 1 - float(free)/self.all
 
-        if self.save_image:
-            img = np.zeros(base_frame.shape, base_frame.dtype)
-            img[:, :] = AREA_COLOR
-            mask = cv2.bitwise_and(img, img, mask=self.area_mask)
-            cv2.addWeighted(mask, 1, base_frame, 1, 0, base_frame)
+        # if self.save_image:
+        #     img = np.zeros(base_frame.shape, base_frame.dtype)
+        #     img[:, :] = AREA_COLOR
+        #     mask = cv2.bitwise_and(img, img, mask=self.area_mask)
+        #     cv2.addWeighted(mask, 1, base_frame, 1, 0, base_frame)
             
-            fig = plt.figure()
-            fig.suptitle("Capacity: {}%".format(capacity*100), fontsize=16)
-            plt.subplot(211),plt.imshow(base_frame),plt.title('Original')
-            plt.xticks([]), plt.yticks([])
-            plt.subplot(212),plt.imshow(t),plt.title('Capacity map')
-            plt.xticks([]), plt.yticks([])
+        #     fig = plt.figure()
+        #     fig.suptitle("Capacity: {}%".format(capacity*100), fontsize=16)
+        #     plt.subplot(211),plt.imshow(base_frame),plt.title('Original')
+        #     plt.xticks([]), plt.yticks([])
+        #     plt.subplot(212),plt.imshow(t),plt.title('Capacity map')
+        #     plt.xticks([]), plt.yticks([])
 
-            fig.savefig(self.image_dir + ("/processed_%s.png" % frame_number), dpi=500)
+        #     fig.savefig(self.image_dir + ("/processed_%s.png" % frame_number), dpi=500)
             
         return capacity
         
@@ -119,53 +121,53 @@ class CapacityCounter(PipelineProcessor):
         
         capacity = self.calculate_capacity(frame, frame_number)
         
-        self.log.debug("Capacity: {}%".format(capacity*100))
+        # with open("output.txt", "wb") as f:
+        #     subprocess.check_call(["python", "traffic_capacity.py"], stdout=f)
+        
+        print("[{}] \t Frame: {} \t Capacity: {}%".format(datetime.datetime.now().strftime('%d-%m-%Y %I:%M:%S %p'),frame_number,round(capacity*100,5)))
+        
+        # self.log.debug("Capacity: {}%".format(capacity*100))
         context['capacity'] = capacity
         
         return context
         
         
-class ContextCsvWriter(PipelineProcessor):
+# class ContextCsvWriter(PipelineProcessor):
 
-    def __init__(self, path, start_time=0, data=None, field_names=[], fps=30, faster=1, diff=False):
-        super(ContextCsvWriter, self).__init__()
+#     def __init__(self, path, start_time=0, data=None, field_names=[], fps=30, faster=1, diff=False):
+#         super(ContextCsvWriter, self).__init__()
 
-        self.fp = open(os.path.join(path), 'w')
-        self.writer = csv.DictWriter(
-            self.fp, fieldnames=['time']+field_names)
-        self.writer.writeheader()
-        self.start_time = start_time
-        self.field_names = field_names
-        self.fps = fps
-        self.path = path
-        self.prev = None
-        self.data = data
-        self.faster = faster
-        self.diff = diff
+#         self.fp = open(os.path.join(path), 'w')
+#         self.writer = csv.DictWriter(
+#             self.fp, fieldnames=['time']+field_names)
+#         self.writer.writeheader()
+#         self.start_time = start_time
+#         self.field_names = field_names
+#         self.fps = fps
+#         self.path = path
+#         self.prev = None
+#         self.data = data
+#         self.faster = faster
+#         self.diff = diff
 
-    def __call__(self, context):
-        frame_number = context['frame_number']
-        count = context.get(self.data) or context
-        count = {k:v for k,v in count.iteritems() if k in self.field_names}
+#     def __call__(self, context):
+#         frame_number = context['frame_number']
+#         count = context.get(self.data) or context
+#         count = {k:v for k,v in count.iteritems() if k in self.field_names}
 
-        _count = count        
-        if self.diff:
-            if not self.prev:
-                self.prev = count
-            else:
-                _count = {k: v - self.prev[k] for k, v in count.iteritems()}
-                self.prev = count
+#         _count = count        
+#         if self.diff:
+#             if not self.prev:
+#                 self.prev = count
+#             else:
+#                 _count = {k: v - self.prev[k] for k, v in count.iteritems()}
+#                 self.prev = count
                 
-        if self.faster > 1:
-            _count['time'] = (self.start_time + int(frame_number*self.faster/self.fps)) 
-        else:
-            _count['time'] = ((self.start_time + int(frame_number / self.fps)) * 100 + int(100.0 / self.fps) * (frame_number % self.fps))
+#         if self.faster > 1:
+#             _count['time'] = (self.start_time + int(frame_number*self.faster/self.fps)) 
+#         else:
+#             _count['time'] = ((self.start_time + int(frame_number / self.fps)) * 100 + int(100.0 / self.fps) * (frame_number % self.fps))
         
-        self.writer.writerow(_count)
+#         self.writer.writerow(_count)
 
-        return context
-
-
-
-
-
+#         return context

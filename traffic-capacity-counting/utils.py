@@ -6,33 +6,33 @@ import sys
 import numpy as np
 
 
-def save_frame(frame, file_name, flip=True):
-    # flip BGR to RGB
-    if flip:
-        cv2.imwrite(file_name, np.flip(frame, 2))
-    else:
-        cv2.imwrite(file_name, frame)
+# def save_frame(frame, file_name, flip=True):
+#     # flip BGR to RGB
+#     if flip:
+#         cv2.imwrite(file_name, np.flip(frame, 2))
+#     else:
+#         cv2.imwrite(file_name, frame)
 
 
-def init_logging(to_file=False):
-    main_logger = logging.getLogger()
+# def init_logging(to_file=False):
+#     main_logger = logging.getLogger()
 
-    formatter = logging.Formatter(
-        fmt='%(asctime)s.%(msecs)03d %(levelname)-8s [%(name)s] %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+#     formatter = logging.Formatter(
+#         fmt='%(asctime)s.%(msecs)03d %(levelname)-8s [%(name)s] %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
 
-    handler_stream = logging.StreamHandler(sys.stdout)
-    handler_stream.setFormatter(formatter)
-    main_logger.addHandler(handler_stream)
+#     handler_stream = logging.StreamHandler(sys.stdout)
+#     handler_stream.setFormatter(formatter)
+#     main_logger.addHandler(handler_stream)
 
-    if to_file:
-        handler_file = logging.handlers.RotatingFileHandler("debug.log", maxBytes=1024 * 1024 * 400  # 400MB
-                                                            , backupCount=10)
-        handler_file.setFormatter(formatter)
-        main_logger.addHandler(handler_file)
+#     if to_file:
+#         handler_file = logging.handlers.RotatingFileHandler("debug.log", maxBytes=1024 * 1024 * 400  # 400MB
+#                                                             , backupCount=10)
+#         handler_file.setFormatter(formatter)
+#         main_logger.addHandler(handler_file)
 
-    main_logger.setLevel(logging.DEBUG)
+#     main_logger.setLevel(logging.DEBUG)
 
-    return main_logger
+#     return main_logger
 
 #=============================================================================
 
