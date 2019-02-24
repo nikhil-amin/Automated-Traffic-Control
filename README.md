@@ -7,6 +7,8 @@ Project on controlling traffic signals dynamically using DIP and ML concept
 Go to https://en.savefrom.net/ and download video in 720p quality with url https://youtu.be/wqctLW0Hb_0
 
 ### How to run script
+> Install [Anaconda3 Distribution](https://www.anaconda.com/distribution/) on your machine. 
+> If already installed, then install the required dependencies by running the following set of commands.
 ```
 conda install <package_name>
 ```
