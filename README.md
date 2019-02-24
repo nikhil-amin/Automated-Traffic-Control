@@ -10,7 +10,9 @@ Go to https://en.savefrom.net/ and download video in 720p quality with url https
 > Install [Anaconda3 Distribution](https://www.anaconda.com/distribution/) on your machine. 
 > If already installed, then install the required dependencies by running the following set of commands.
 ```
-conda install <package_name>
+conda install numpy pandas Pillow plotly python-dateutil requests scikit-image scikit-learn scipy sk-video
+conda install -c conda-forge opencv
+conda install -c mrinaljain17 ffmpeg
 ```
 
 Edit **traffic_capacity.py** if needed:
