@@ -31,5 +31,5 @@ pipeline = PipelineRunner(pipeline=[
 ```
 Run script:
 ```
-python traffic.py
+python traffic_capacity.py
 ```
