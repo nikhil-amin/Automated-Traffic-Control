@@ -59,8 +59,8 @@ def main():
             context = pipeline.run()
 
             # skipping 10 seconds
-            for i in xrange(240):
-                cap.next()
+            for i in range(240):
+                cap.__next__()
     except Exception as e:
         log.exception(e)
 # ============================================================================
