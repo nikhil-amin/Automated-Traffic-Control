@@ -56,7 +56,7 @@ def main():
                 'frame': frame,
                 'frame_number': frame_number,
             })
-            context = pipeline.run()
+            pipeline.run()
 
             # skipping 10 seconds
             for i in range(240):
