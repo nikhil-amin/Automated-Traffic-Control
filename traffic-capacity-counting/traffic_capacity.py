@@ -16,8 +16,8 @@ cv2.ocl.setUseOpenCL(False)
 
 IMAGE_DIR = "./out"
 VIDEO_SOURCE = './input.mp4'
-SHAPE = (720, 1280)
-AREA_PTS = np.array([[780, 716], [686, 373], [883, 383], [1280, 636], [1280, 720]]) 
+SHAPE = (480, 640)
+AREA_PTS = np.array([[390, 416], [343, 73], [441, 83], [640, 336], [640, 420]]) 
 
 from pipeline import (
     PipelineRunner,
@@ -34,33 +34,49 @@ def main():
     area_mask = cv2.fillPoly(base, [AREA_PTS], (255, 255, 255))[:, :, 0]
 
     pipeline = PipelineRunner(pipeline=[
-        CapacityCounter(area_mask=area_mask, save_image=False, image_dir=IMAGE_DIR),
+        CapacityCounter(area_mask=area_mask, save_image=True, image_dir=IMAGE_DIR),
         # saving every 10 seconds
         #ContextCsvWriter('./report.csv', start_time=1505494325, fps=1, faster=10, field_names=['capacity'])
     ], log_level=logging.DEBUG)
 
     # Set up image source
-    cap = skvideo.io.vreader(VIDEO_SOURCE)
+    # cap = skvideo.io.vreader(VIDEO_SOURCE)
+    cap = cv2.VideoCapture(0)
 
     frame_number = -1
     st = time.time()
     
     try:
-        for frame in cap:
-            if not frame.any():
-                log.error("Frame capture failed, skipping...")
-
+        while(True):
+            # print(cap.read())
             frame_number += 1
-
+            flag, frame = cap.read()
+            # print("flag", flag)
+            # print("frame", frame)
             pipeline.set_context({
                 'frame': frame,
                 'frame_number': frame_number,
             })
             pipeline.run()
-
+            # if cv2.waitKey(1) & 0xFF == ord('q'):
+            #     break
+        cap.release()
+        # for frame in cap:
+            # if not frame.any():
+                # log.error("Frame capture failed, skipping...")
+# 
+            # frame_number += 1
+# 
+            # pipeline.set_context({
+                # 'frame': frame,
+                # 'frame_number': frame_number,
+            # })
+            # pipeline.run()
+# 
             # skipping 10 seconds
-            for i in range(240):
-                cap.__next__()
+            # for i in range(240):
+                # cap.__next__()
+        
     except Exception as e:
         log.exception(e)
 # ============================================================================

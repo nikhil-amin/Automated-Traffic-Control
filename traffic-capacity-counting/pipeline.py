@@ -98,20 +98,20 @@ class CapacityCounter(PipelineProcessor):
         free = np.count_nonzero(t)
         capacity = 1 - float(free)/self.all
 
-        # if self.save_image:
-        #     img = np.zeros(base_frame.shape, base_frame.dtype)
-        #     img[:, :] = AREA_COLOR
-        #     mask = cv2.bitwise_and(img, img, mask=self.area_mask)
-        #     cv2.addWeighted(mask, 1, base_frame, 1, 0, base_frame)
+        if self.save_image:
+            img = np.zeros(base_frame.shape, base_frame.dtype)
+            img[:, :] = AREA_COLOR
+            mask = cv2.bitwise_and(img, img, mask=self.area_mask)
+            cv2.addWeighted(mask, 1, base_frame, 1, 0, base_frame)
             
-        #     fig = plt.figure()
-        #     fig.suptitle("Capacity: {}%".format(capacity*100), fontsize=16)
-        #     plt.subplot(211),plt.imshow(base_frame),plt.title('Original')
-        #     plt.xticks([]), plt.yticks([])
-        #     plt.subplot(212),plt.imshow(t),plt.title('Capacity map')
-        #     plt.xticks([]), plt.yticks([])
+            fig = plt.figure()
+            fig.suptitle("Capacity: {}%".format(capacity*100), fontsize=16)
+            plt.subplot(211),plt.imshow(base_frame),plt.title('Original')
+            plt.xticks([]), plt.yticks([])
+            plt.subplot(212),plt.imshow(t),plt.title('Capacity map')
+            plt.xticks([]), plt.yticks([])
 
-        #     fig.savefig(self.image_dir + ("/processed_%s.png" % frame_number), dpi=500)
+            fig.savefig(self.image_dir + ("/processed_%s.png" % frame_number), dpi=500)
             
         return capacity
         

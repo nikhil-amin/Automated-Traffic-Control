@@ -5,3 +5,9 @@
 
 # input video
 /input.mp4
+
+#output folder
+/out
+
+#Testing Codes are here
+/TestFolder
