@@ -89,11 +89,11 @@ def mymain():
         log.exception(e)
 # ============================================================================
 
-# if __name__ == "__main__":
+if __name__ == "__main__":
     # log = utils.init_logging()
 
     # if not os.path.exists(IMAGE_DIR):
     #     log.debug("Creating image directory `%s`...", IMAGE_DIR)
     #     os.makedirs(IMAGE_DIR)
 
-    # main()
+    mymain()
