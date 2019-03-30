@@ -31,7 +31,7 @@ from pipeline import (
 # ============================================================================
 
 
-def main():
+def mymain():
     log = logging.getLogger("main")
 
     base = np.zeros(SHAPE + (3,), dtype='uint8')
@@ -64,7 +64,7 @@ def main():
             context = pipeline.run()
 
             print("[{}] \t Frame: {} \t Capacity: {}%".format(datetime.datetime.now().strftime('%d-%m-%Y %I:%M:%S %p'),context['frame_number'],round(context['capacity']*100,5)))
-
+            
             #_thread.start_new_thread(pipeline.run, ())
             # if cv2.waitKey(1) & 0xFF == ord('q'):
             #     break
@@ -89,11 +89,11 @@ def main():
         log.exception(e)
 # ============================================================================
 
-if __name__ == "__main__":
+# if __name__ == "__main__":
     # log = utils.init_logging()
 
     # if not os.path.exists(IMAGE_DIR):
     #     log.debug("Creating image directory `%s`...", IMAGE_DIR)
     #     os.makedirs(IMAGE_DIR)
 
-    main()
+    # main()
