@@ -3,12 +3,16 @@ import logging.handlers
 import os
 import time
 import sys
+import _thread
 
 import cv2
 import numpy as np
 import skvideo.io
 import utils
 import matplotlib.pyplot as plt
+
+import datetime
+
 # without this some strange errors happen
 cv2.ocl.setUseOpenCL(False)
 
@@ -57,7 +61,11 @@ def main():
                 'frame': frame,
                 'frame_number': frame_number,
             })
-            pipeline.run()
+            context = pipeline.run()
+
+            print("[{}] \t Frame: {} \t Capacity: {}%".format(datetime.datetime.now().strftime('%d-%m-%Y %I:%M:%S %p'),context['frame_number'],round(context['capacity']*100,5)))
+
+            #_thread.start_new_thread(pipeline.run, ())
             # if cv2.waitKey(1) & 0xFF == ord('q'):
             #     break
         cap.release()

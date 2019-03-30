@@ -7,7 +7,7 @@ import cv2
 import matplotlib.pyplot as plt
 import utils
 
-import datetime
+# import datetime
 import subprocess
 
 AREA_COLOR = (66, 183, 42)
@@ -124,11 +124,11 @@ class CapacityCounter(PipelineProcessor):
         # with open("output.txt", "wb") as f:
         #     subprocess.check_call(["python", "traffic_capacity.py"], stdout=f)
         
-        print("[{}] \t Frame: {} \t Capacity: {}%".format(datetime.datetime.now().strftime('%d-%m-%Y %I:%M:%S %p'),frame_number,round(capacity*100,5)))
+        # print("[{}] \t Frame: {} \t Capacity: {}%".format(datetime.datetime.now().strftime('%d-%m-%Y %I:%M:%S %p'),frame_number,round(capacity*100,5)))
         
         # self.log.debug("Capacity: {}%".format(capacity*100))
         context['capacity'] = capacity
-        
+        #print("Context: ",context)
         return context
         
         
