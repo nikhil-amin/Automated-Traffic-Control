@@ -31,7 +31,7 @@ from pipeline import (
 # ============================================================================
 
 
-def mymain():
+def mymain1(out_q):
     log = logging.getLogger("main")
 
     base = np.zeros(SHAPE + (3,), dtype='uint8')
@@ -60,11 +60,12 @@ def mymain():
             pipeline.set_context({
                 'frame': frame,
                 'frame_number': frame_number,
-            })
+            })            
             context = pipeline.run()
 
-            print("[{}] \t Frame: {} \t Capacity: {}%".format(datetime.datetime.now().strftime('%d-%m-%Y %I:%M:%S %p'),context['frame_number'],round(context['capacity']*100,5)))
-            
+            print("\n[{}] \t Frame: {} \t Capacity: {}%".format(datetime.datetime.now().strftime('%d-%m-%Y %I:%M:%S %p'),context['frame_number'],round(context['capacity']*100,5)))
+            # return round(context['capacity']*100,5)
+            out_q.put(round(context['capacity']*100,5))
             #_thread.start_new_thread(pipeline.run, ())
             # if cv2.waitKey(1) & 0xFF == ord('q'):
             #     break
@@ -96,4 +97,5 @@ if __name__ == "__main__":
     #     log.debug("Creating image directory `%s`...", IMAGE_DIR)
     #     os.makedirs(IMAGE_DIR)
 
-    mymain()
+    something = mymain1()
+    print(something)
