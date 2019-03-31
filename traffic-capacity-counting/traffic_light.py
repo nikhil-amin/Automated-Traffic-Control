@@ -3,35 +3,35 @@ import time
 from traffic_capacity import mymain1
 import threading
 
-from flask import Flask
-app = Flask(__name__)
+# from flask import Flask
+# app = Flask(__name__)
 
 # from traffic_capacity import mymain
 # mymain()
 
 #function to calculate sum of timer for all lanes
-
 def returnSum(timer):
     sum = 0
     for i in timer: 
           sum = sum + timer[i] 
     return sum
 
-@app.route('/')
+# @app.route('/')
 def mymain2(in_q):
     while True:
         capacity = []
+        timer = {}
         receivedCapacity = in_q.get()
-        print("receivedCapacity: " ,receivedCapacity)
 
         # receivedCapacity = mymain1()
         capacity.append(receivedCapacity)
-        timer = {}
         number_of_lanes = random.randint(2,3) + 1 #considering scenario of 3 to 4 lanes
+
         #taking random capacity values for execution purpose 
         for j in range(number_of_lanes):
             capacity.append(round(random.uniform(2.00,50.99),5))
         # capacity.sort()
+
         for i in capacity:
             if((int(i)*2) < 30):
                 timer[capacity[capacity.index(i)]] = 3 #min time for a lane in 30seconds
@@ -41,7 +41,8 @@ def mymain2(in_q):
                 timer[capacity[capacity.index(i)]] = 1 #int(i)*2
         sum = returnSum(timer) #calculating total sum of timer for all lanes
 
-        print("[Number of Lanes] => ",number_of_lanes,"\n[Capacity : Timer] => ",timer, "\n[Cycle time] => ",sum,"seconds")
+        print("\n[Number of Lanes] => {} \n[Received Capacity] => {}% \n[Capacity : Timer] => {} \n[Cycle time] => {}seconds".format(number_of_lanes,receivedCapacity,timer,sum))
+    
         in_q.task_done()
         # return str(sum)
         time.sleep(sum) #wait till a cycle in completed
