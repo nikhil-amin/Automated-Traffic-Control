@@ -1,13 +1,9 @@
 import random
 import time
-from traffic_capacity import mymain1
 import threading
 
-# from flask import Flask
-# app = Flask(__name__)
-
-# from traffic_capacity import mymain
-# mymain()
+MIN_LANE_TIME = 15  #min time for a lane in 15 seconds
+MAX_LANE_TIME = 60  #max time for a lane in 60 seconds
 
 #function to calculate sum of timer for all lanes
 def returnSum(timer):
@@ -16,42 +12,33 @@ def returnSum(timer):
           sum = sum + timer[i] 
     return sum
 
-# @app.route('/')
-def mymain2(in_q):
+def mymain2(in_q, dict_out_q):
     while True:
         capacity = []
-        timer = {}
         receivedCapacity = in_q.get()
+        print("receivedCapacity: " ,receivedCapacity)
 
-        # receivedCapacity = mymain1()
         capacity.append(receivedCapacity)
-        number_of_lanes = random.randint(2,3) + 1 #considering scenario of 3 to 4 lanes
-
+        timer = {}
+        number_of_lanes = random.randint(2,2) + 2 #considering scenario of 4 lanes
+        
         #taking random capacity values for execution purpose 
         for j in range(number_of_lanes):
             capacity.append(round(random.uniform(2.00,50.99),5))
-        # capacity.sort()
 
         for i in capacity:
             if((int(i)*2) < 30):
-                timer[capacity[capacity.index(i)]] = 3 #min time for a lane in 30seconds
+                timer[capacity[capacity.index(i)]] = MIN_LANE_TIME 
             elif((int(i)*2) > 60):
-                timer[capacity[capacity.index(i)]] = 6 #max time for a lane in 60seconds
+                timer[capacity[capacity.index(i)]] = MAX_LANE_TIME 
             else:
-                timer[capacity[capacity.index(i)]] = 1 #int(i)*2
+                timer[capacity[capacity.index(i)]] = int(i)*2
+        
         sum = returnSum(timer) #calculating total sum of timer for all lanes
-
-        print("\n[Number of Lanes] => {} \n[Received Capacity] => {}% \n[Capacity : Timer] => {} \n[Cycle time] => {}seconds".format(number_of_lanes,receivedCapacity,timer,sum))
-    
+        dict_out_q.put(timer)
+        
+        print("[Number of Lanes] => ",number_of_lanes,"\n[Capacity : Timer] => ",timer, "\n[Cycle time] => ",sum,"seconds")
+        
         in_q.task_done()
-        # return str(sum)
+        
         time.sleep(sum) #wait till a cycle in completed
-
-# if __name__ == "__main__":
-#     t1 = threading.Thread(target=mymain1)
-#     t2 = threading.Thread(target=mymain2)
-#     t1.start()
-#     t2.start()
-        # mymain2()
-        # print(sum)
-        # time.sleep(sum)
