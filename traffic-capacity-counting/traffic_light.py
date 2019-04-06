@@ -2,7 +2,7 @@ import random
 import time
 import threading
 
-MIN_LANE_TIME = 15  #min time for a lane in 15 seconds
+MIN_LANE_TIME = 15 #min time for a lane in 15 seconds
 MAX_LANE_TIME = 60  #max time for a lane in 60 seconds
 
 #function to calculate sum of timer for all lanes
@@ -20,7 +20,7 @@ def mymain2(in_q, dict_out_q):
 
         capacity.append(receivedCapacity)
         timer = {}
-        number_of_lanes = random.randint(2,2) + 2 #considering scenario of 4 lanes
+        number_of_lanes = 3 #considering scenario of 4 lanes
         
         #taking random capacity values for execution purpose 
         for j in range(number_of_lanes):
@@ -37,7 +37,7 @@ def mymain2(in_q, dict_out_q):
         sum = returnSum(timer) #calculating total sum of timer for all lanes
         dict_out_q.put(timer)
         
-        print("[Number of Lanes] => ",number_of_lanes,"\n[Capacity : Timer] => ",timer, "\n[Cycle time] => ",sum,"seconds")
+        print("[Number of Lanes] => ",number_of_lanes + 1,"\n[Capacity : Timer] => ",timer, "\n[Cycle time] => ",sum,"seconds")
         
         in_q.task_done()
         
