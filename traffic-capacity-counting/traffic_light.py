@@ -2,8 +2,8 @@ import random
 import time
 import threading
 
-MIN_LANE_TIME = 2  # min time for a lane in 15 seconds
-MAX_LANE_TIME = 5  # max time for a lane in 60 seconds
+MIN_LANE_TIME = 15  # min time for a lane in 15 seconds
+MAX_LANE_TIME = 30  # max time for a lane in 60 seconds
 
 
 # function to calculate sum of timer for all lanes
@@ -35,7 +35,7 @@ def mymain2(in_q, dict_out_q, q_number_of_lanes):
             elif((int(i)*2) > 60):
                 timer[capacity[capacity.index(i)]] = MAX_LANE_TIME 
             else:
-                timer[capacity[capacity.index(i)]] = 4#int(i)*2
+                timer[capacity[capacity.index(i)]] = 20#int(i)*2
         
         cycleTime = returnSum(timer)  # calculating total sum of timer for all lanes
         dict_out_q.put(timer)  # putting timer dictionary on a queue

@@ -13,7 +13,7 @@ from pipeline import (
 )
 
 
-def mymain1(out_q):
+def mymain1(out_q,q_camera_frames):
 
     base = np.zeros(SHAPE + (3,), dtype='uint8')
     area_mask = cv2.fillPoly(base, [AREA_PTS], (255, 255, 255))[:, :, 0]
@@ -23,6 +23,9 @@ def mymain1(out_q):
     ])
 
     cap = cv2.VideoCapture(0)  # Taking camera input
+    cap.set(cv2.CAP_PROP_FRAME_WIDTH, 600)
+    cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 600)
+    cap.set(cv2.CAP_PROP_FPS, 24)
 
     frame_number = -1
     
@@ -36,6 +39,10 @@ def mymain1(out_q):
                 'frame_number': frame_number,
             })            
             context = pipeline.run()
+
+            img = {}
+            img["frame"] = frame
+            q_camera_frames.put(img)
 
             print("\n[{}] \t Frame: {} \t Capacity: {}%".format(datetime.datetime.now().strftime('%d-%m-%Y %I:%M:%S %p'),context['frame_number'],round(context['capacity']*100,5)))
             out_q.put(round(context['capacity']*100,5))  # putting capacity on a queue
