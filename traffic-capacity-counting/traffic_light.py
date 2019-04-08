@@ -2,27 +2,29 @@ import random
 import time
 import threading
 
-MIN_LANE_TIME = 15 #min time for a lane in 15 seconds
-MAX_LANE_TIME = 60  #max time for a lane in 60 seconds
+MIN_LANE_TIME = 2  # min time for a lane in 15 seconds
+MAX_LANE_TIME = 5  # max time for a lane in 60 seconds
 
-#function to calculate sum of timer for all lanes
+
+# function to calculate sum of timer for all lanes
 def returnSum(timer):
-    sum = 0
+    cycleTime = 0
     for i in timer: 
-          sum = sum + timer[i] 
-    return sum
+          cycleTime = cycleTime + timer[i] 
+    return cycleTime
+
 
 def mymain2(in_q, dict_out_q):
     while True:
         capacity = []
-        receivedCapacity = in_q.get()
-        print("receivedCapacity: " ,receivedCapacity)
+        receivedCapacity = in_q.get()  # taking capacity from queue
+        print("[Received Capacity] =>" ,receivedCapacity)
 
         capacity.append(receivedCapacity)
         timer = {}
-        number_of_lanes = 3 #considering scenario of 4 lanes
+        number_of_lanes = 3  # considering scenario of 4 lanes
         
-        #taking random capacity values for execution purpose 
+        # taking random capacity values for execution purpose 
         for j in range(number_of_lanes):
             capacity.append(round(random.uniform(2.00,50.99),5))
 
@@ -32,13 +34,13 @@ def mymain2(in_q, dict_out_q):
             elif((int(i)*2) > 60):
                 timer[capacity[capacity.index(i)]] = MAX_LANE_TIME 
             else:
-                timer[capacity[capacity.index(i)]] = int(i)*2
+                timer[capacity[capacity.index(i)]] = 4#int(i)*2
         
-        sum = returnSum(timer) #calculating total sum of timer for all lanes
-        dict_out_q.put(timer)
+        cycleTime = returnSum(timer)  # calculating total sum of timer for all lanes
+        dict_out_q.put(timer)  # putting timer dictionary on a queue
         
-        print("[Number of Lanes] => ",number_of_lanes + 1,"\n[Capacity : Timer] => ",timer, "\n[Cycle time] => ",sum,"seconds")
+        print("[Number of Lanes] => ",number_of_lanes + 1,"\n[Capacity : Timer] => ",timer, "\n[Cycle time] => ",cycleTime,"seconds")
         
         in_q.task_done()
         
-        time.sleep(sum) #wait till a cycle in completed
+        time.sleep(cycleTime)  # wait till a cycle in completed
