@@ -3,22 +3,24 @@ import time
 import threading
 
 MIN_LANE_TIME = 15  # min time for a lane in 15 seconds
-MAX_LANE_TIME = 30  # max time for a lane in 60 seconds
+MAX_LANE_TIME = 60  # max time for a lane in 60 seconds
 
 
 # function to calculate sum of timer for all lanes
 def returnSum(timer):
+    
     cycleTime = 0
     for i in timer: 
           cycleTime = cycleTime + timer[i] 
     return cycleTime
 
 
-def mymain2(in_q, dict_out_q, q_number_of_lanes):
+def traffic_light(q_capacity, q_timer, q_number_of_lanes):
+
     number_of_lanes = q_number_of_lanes.get()  # considering scenario of 4 lanes
     while True:
         capacity = []
-        receivedCapacity = in_q.get()  # taking capacity from queue
+        receivedCapacity = q_capacity.get()  # taking capacity from queue
         print("[Received Capacity] =>" ,receivedCapacity)
 
         capacity.append(receivedCapacity)
@@ -35,13 +37,13 @@ def mymain2(in_q, dict_out_q, q_number_of_lanes):
             elif((int(i)*2) > 60):
                 timer[capacity[capacity.index(i)]] = MAX_LANE_TIME 
             else:
-                timer[capacity[capacity.index(i)]] = 20#int(i)*2
+                timer[capacity[capacity.index(i)]] = int(i)*2
         
         cycleTime = returnSum(timer)  # calculating total sum of timer for all lanes
-        dict_out_q.put(timer)  # putting timer dictionary on a queue
+        q_timer.put(timer)  # putting timer dictionary on a queue
         q_number_of_lanes.put(number_of_lanes)
         print("[Number of Lanes] => ",number_of_lanes,"\n[Capacity : Timer] => ",timer, "\n[Cycle time] => ",cycleTime,"seconds")
         
-        in_q.task_done()
+        q_capacity.task_done()
         
         time.sleep(cycleTime)  # wait till a cycle in completed

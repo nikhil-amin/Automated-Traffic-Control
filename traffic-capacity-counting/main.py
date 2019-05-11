@@ -1,6 +1,6 @@
-from traffic_capacity import mymain1
-from traffic_light import mymain2
-from GUI import mymain3
+from traffic_capacity import traffic_capacity
+from traffic_light import traffic_light
+from GUI import GUI
 
 import threading
 import queue
@@ -10,17 +10,17 @@ if __name__ == "__main__":
 
     number_of_lanes = (int(input("Enter number of lanes for simulations: ")))
 
-    q = queue.LifoQueue()
-    dict_q = queue.LifoQueue()
+    q_capacity = queue.LifoQueue()
+    q_timer = queue.LifoQueue()
     q_number_of_lanes = queue.LifoQueue()
     q_camera_frames = queue.Queue()
 
     q_number_of_lanes.put(number_of_lanes)
 
     # 3 programs are run parallel using threads
-    t1 = threading.Thread(target=mymain1,args=(q,q_camera_frames))  # Reading & calculation of capacity from camera feed
-    t2 = threading.Thread(target=mymain2,args=(q,dict_q,q_number_of_lanes))  # Assigning timers for lane based on capacity
-    t3 = threading.Thread(target=mymain3,args=(q,dict_q,q_number_of_lanes,q_camera_frames))  # GUI display
+    t1 = threading.Thread(target=traffic_capacity,args=(q_capacity,q_camera_frames))  # Reading & calculation of capacity from camera feed
+    t2 = threading.Thread(target=traffic_light,args=(q_capacity,q_timer,q_number_of_lanes))  # Assigning timers for lane based on capacity
+    t3 = threading.Thread(target=GUI,args=(q_timer,q_number_of_lanes,q_camera_frames))  # GUI display
     
     t1.start()  # Start thread1 
     t2.start()  # Start thread2

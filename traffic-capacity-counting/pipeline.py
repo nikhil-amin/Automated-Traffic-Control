@@ -1,8 +1,6 @@
 import numpy as np
 import cv2
 
-AREA_COLOR = (66, 183, 42)
-
 
 class PipelineRunner(object):
 

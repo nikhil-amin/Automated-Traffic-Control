@@ -7,9 +7,9 @@ import cv2
 Ui_MainWindow, QtBaseClass = uic.loadUiType('GUI.ui')  # Loading GUI layout
 
 TIMER_INIT = 0  # Initializing every lane's timer to 0
-running = False
 
 class OwnImageWidget(QtWidgets.QWidget):
+    
     def __init__(self, parent=None):
         super(OwnImageWidget, self).__init__(parent)
         self.image = None
@@ -27,11 +27,12 @@ class OwnImageWidget(QtWidgets.QWidget):
             qp.drawImage(QtCore.QPoint(0, 0), self.image)
         qp.end()
 
+
 class MyApp(QtWidgets.QMainWindow):
 
-    def __init__(self, rec_cap, dict_in_q, q_number_of_lanes, q_camera_frames):
+    def __init__(self, q_timer, q_number_of_lanes, q_camera_frames):
         super(MyApp, self).__init__()
-        self.dict_timer = dict_in_q
+        self.dict_timer = q_timer
         self.number_of_lanes = q_number_of_lanes
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
@@ -148,17 +149,9 @@ class MyApp(QtWidgets.QMainWindow):
             numberOfLanes = self.number_of_lanes.get()
             self.displayGUI(my_dict_timer2,capacity2,numberOfLanes)
 
-
-    def GUI_display(self):
-
-        numberOfLanes = self.number_of_lanes.get()
-        my_dict_timer = self.dict_timer.get()
-        capacity = list(my_dict_timer.keys())
-        self.displayGUI(my_dict_timer,capacity,numberOfLanes)
-
         
-def mymain3(rec_cap,dict_in_q,q_number_of_lanes,q_camera_frames):
+def GUI(q_timer,q_number_of_lanes,q_camera_frames):
     app = QtWidgets.QApplication(sys.argv)
-    window = MyApp(rec_cap,dict_in_q,q_number_of_lanes,q_camera_frames)
+    window = MyApp(q_timer,q_number_of_lanes,q_camera_frames)
     window.show()
     sys.exit(app.exec_())
