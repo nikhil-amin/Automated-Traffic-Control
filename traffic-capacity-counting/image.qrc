@@ -1,0 +1,8 @@
+<RCC>
+  <qresource prefix="screenImage4">
+    <file>circle.png</file>
+    <file>circular_arrows.gif</file>
+    <file>noVideo.png</file>
+    <file>circle.png</file>
+  </qresource>
+</RCC>

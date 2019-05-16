@@ -134,15 +134,31 @@ class MyApp(QtWidgets.QMainWindow):
         if self.TimeLeft1 != 0:
             self.TimeLeft1 -= 1
             self.ui.lineEdit_t1.setText(str(self.TimeLeft1)) 
+            self.ui.lineEdit_s1.setText("Green")
+            self.ui.lineEdit_s2.setText("Red")
+            self.ui.lineEdit_s3.setText("Red")
+            self.ui.lineEdit_s4.setText("Red")
         if self.TimeLeft1 == 0 and self.TimeLeft2 != 0:
             self.TimeLeft2 -= 1
             self.ui.lineEdit_t2.setText(str(self.TimeLeft2)) 
+            self.ui.lineEdit_s1.setText("Red")
+            self.ui.lineEdit_s2.setText("Green")
+            self.ui.lineEdit_s3.setText("Red")
+            self.ui.lineEdit_s4.setText("Red")
         if self.TimeLeft1 == 0 and self.TimeLeft2 == 0 and self.TimeLeft3 != 0:
             self.TimeLeft3 -= 1
             self.ui.lineEdit_t3.setText(str(self.TimeLeft3)) 
+            self.ui.lineEdit_s1.setText("Red")
+            self.ui.lineEdit_s2.setText("Red")
+            self.ui.lineEdit_s3.setText("Green")
+            self.ui.lineEdit_s4.setText("Red")
         if self.TimeLeft1 == 0 and self.TimeLeft2 == 0 and self.TimeLeft3 == 0 and self.TimeLeft4 != 0:
             self.TimeLeft4 -= 1
             self.ui.lineEdit_t4.setText(str(self.TimeLeft4))   
+            self.ui.lineEdit_s1.setText("Red")
+            self.ui.lineEdit_s2.setText("Red")
+            self.ui.lineEdit_s3.setText("Red")
+            self.ui.lineEdit_s4.setText("Green")
         if self.TimeLeft1 == 0 and self.TimeLeft2 == 0 and self.TimeLeft3 == 0 and self.TimeLeft4 == 0:
             my_dict_timer2 = self.dict_timer.get()
             capacity2 = list(my_dict_timer2.keys()) 
