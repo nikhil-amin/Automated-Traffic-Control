@@ -1,8 +1,6 @@
 # Automated-Traffic-Control
 Project on controlling traffic signals dynamically using DIP and ML concept
 
-## traffic-capacity-counting:
-
 ### Data
 Go to https://en.savefrom.net/ and download video in 720p quality with url https://youtu.be/wqctLW0Hb_0
 
